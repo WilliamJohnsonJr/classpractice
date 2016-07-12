@@ -101,7 +101,7 @@ console.assert(cat.growl() === "meow");
 class KeepSecret {
 	constructor(mySecret){
 		let privatevariable = mySecret;
-		this.squeal= function(){
+		this.__proto__.squeal= function(){
 			return privatevariable;
 		}
 	}
@@ -110,7 +110,6 @@ class KeepSecret {
 // -- ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑ -- //
 
 // ==== Validating =============================================== //
-
 let mySecret = "My class rocks!";
 let dontTellNobody = new KeepSecret(mySecret);
 console.assert(dontTellNobody.squeal() === mySecret);
@@ -141,8 +140,7 @@ class Safe {
 	constructor(data2save, keyInstance){
 		let sensitiveData = data2save;
 		let theKey = keyInstance;
-
-		this.unlock = function(key){
+		this.__proto__.unlock = function (key){
 			if (key === theKey){
 				return sensitiveData;
 			}
@@ -158,6 +156,9 @@ let sensitive = "shhhhh!";
 let rightKey  = new Key();
 let wrongKey  = new Key();
 let safe      = new Safe(sensitive, rightKey);
+
+console.log(safe);
+console.log(safe.unlock(rightKey));
 
 console.assert(safe.unlock(wrongKey) !== sensitive);
 console.assert(safe.unlock(rightKey) === sensitive);
